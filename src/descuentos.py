@@ -39,8 +39,7 @@ def calcular_precio_final(precio, impuesto, descuento):
     precio_con_descuento = aplicar_descuento(precio, descuento)
 
     # Luego aplicar el impuesto
-    # BUG 1: El impuesto se aplica incorrectamente
-    impuesto_monto = precio * (impuesto / 100)
+    impuesto_monto = precio_con_descuento * (impuesto / 100)
     precio_final = precio_con_descuento + impuesto_monto
 
     return precio_final
@@ -94,8 +93,11 @@ def descuento_apilado(precio, descuentos):
     if not descuentos:
         return precio
 
-    # Sumar todos los descuentos
-    total_descuento = sum(descuentos)
+    for desc in descuentos:
+        if desc < 0 or desc > 100:
+            raise ValueError("Cada descuento debe estar entre 0 y 100")
 
-    # BUG 2: El descuento total puede exceder el 100%
+    # Sumar todos los descuentos, sin pasar del 100%
+    total_descuento = min(sum(descuentos), 100)
+
     return aplicar_descuento(precio, total_descuento)
