@@ -1,5 +1,5 @@
 import pytest
-from src.calculadora import sumar, dividir, minimo
+from src.calculadora import sumar, dividir, minimo, raiz_cuadrada
 
 
 def test_sumar_positivos():
@@ -26,3 +26,19 @@ def test_minimo_lista_solo_positivos():
     resultado = minimo(numeros)
     # Assert
     assert resultado == 3
+
+def test_raiz_cuadrada_numero_positivo():
+    # Arrange
+    numero = 9
+    # Act
+    resultado = raiz_cuadrada(numero)
+    # Assert
+    assert resultado == 3
+
+
+def test_raiz_cuadrada_negativo_lanza_error():
+    # Arrange
+    numero = -4
+    # Act + Assert
+    with pytest.raises(ValueError):
+        raiz_cuadrada(numero)
